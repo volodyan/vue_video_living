@@ -22,18 +22,17 @@ export default {
     };
   },
   mounted() {
-    this.Axiosfun();
+    //this.Axiosfun();
+    this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
   },
   methods: {
-    Axiosfun(){
-      this.$axios.get("data/video.json")
-      .then((res) => {
-        console.log("Axiosfun",res,window.location.host)
-        let host=window.location.host
-      // this.InitPalyFun(res.data.VideoSrc);
-         this.InitPalyFun(`http://${host}res.data.VideoSrc`);
-      })
-       
+    Axiosfun() {
+      this.$axios.get("data/video.json").then((res) => {
+        console.log("Axiosfun", res, window.location.host);
+        let host = window.location.host;
+        this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
+        //this.InitPalyFun(`http://${host}res.data.VideoSrc`);
+      });
     },
     InitPalyFun(VideoSrc) {
       if (flvjs.isSupported()) {
@@ -42,7 +41,7 @@ export default {
           type: "flv",
           isLive: true,
           hasAudio: false,
-          url:VideoSrc// "http://1011.hlsplay.aodianyun.com/demo/game.flv", //"http://20.20.0.16:8080/live?port=1935&app=myapp&stream=shenhua"//
+          url: VideoSrc, // "http://1011.hlsplay.aodianyun.com/demo/game.flv", //"http://20.20.0.16:8080/live?port=1935&app=myapp&stream=shenhua"//
         });
         this.flvPlayer.attachMediaElement(videoElement);
         this.flvPlayer.load();
