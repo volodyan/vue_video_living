@@ -3,6 +3,7 @@
     <!-- <component :is='"nodeflv"'></component> -->
    <component :is='"teslflvjs"'></component>
     <!-- <component :is='"testvideo"'></component> -->
+     <img src="{{ url_for('video_feed') }}">
   </div>
 </template>
 

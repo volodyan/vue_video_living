@@ -22,16 +22,16 @@ export default {
     };
   },
   mounted() {
-    //this.Axiosfun();
-    this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
+    this.Axiosfun();
+    //this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
   },
   methods: {
     Axiosfun() {
       this.$axios.get("data/video.json").then((res) => {
         console.log("Axiosfun", res, window.location.host);
         let host = window.location.host;
-        this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
-        //this.InitPalyFun(`http://${host}res.data.VideoSrc`);
+         //this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
+       this.InitPalyFun(`http://${host}res.data.VideoSrc`);
       });
     },
     InitPalyFun(VideoSrc) {
