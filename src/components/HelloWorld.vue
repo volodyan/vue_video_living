@@ -4,7 +4,7 @@
    <component :is='"teslflvjs"'></component>
     <!-- <component :is='"testvideo"'></component> -->
     <!--  <img src="{{ url_for('video_feed') }}"> -->
-    <component :is='"flaskdemo"'></component>
+    <component :is='"trackvideo"'></component>
   </div>
 </template>
 
@@ -13,13 +13,15 @@ import testvideo from './video/testvideo.vue'
 import teslflvjs from './video/teslflvjs.vue'
 import nodeflv from './video/nodeflv.vue'
 import flaskdemo from './video/flaskdemo.vue'
+import trackvideo from './trackvideo/index.vue'
 export default {
   name: 'HelloWorld',
 components:{
   testvideo,
   teslflvjs,
   nodeflv,
-  flaskdemo
+  flaskdemo,
+  trackvideo
 }
 }
 </script>
