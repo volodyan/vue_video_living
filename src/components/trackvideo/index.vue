@@ -52,7 +52,7 @@ export default {
         this.flvPlayer.attachMediaElement(trackvideoElement);
         this.flvPlayer.load();
         this.flvPlayer.play();
-        this.TrackFaceFun()
+        this.TrackFaceFun();
       }
     },
     play() {
@@ -68,49 +68,54 @@ export default {
       }
     },
     TrackFaceFun() {
-            var video = document.getElementById('trackvideoElement');
-            var canvas = document.getElementById('canvas');
-            var context = canvas.getContext('2d');
+      var video = document.getElementById("trackvideoElement");
+      var canvas = document.getElementById("canvas");
+      var context = canvas.getContext("2d");
 
-            var tracker = new tracking.LandmarksTracker();
-            tracker.setInitialScale(4);
-            tracker.setStepSize(2);
-            tracker.setEdgesDensity(0.1);
+      var tracker = new tracking.LandmarksTracker();
+      tracker.setInitialScale(4);
+      tracker.setStepSize(2);
+      tracker.setEdgesDensity(0.1);
 
-            tracking.track('#trackvideoElement', tracker);
+      tracking.track("#trackvideoElement", tracker);
 
-            tracker.on('track', function(event) {
+      tracker.on("track", function (event) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
 
-                context.clearRect(0, 0, canvas.width, canvas.height);
+        if (!event.data) return;
+        console.log("event.data", event.data);
+        event.data.faces.forEach(function (rect) {
+          context.strokeStyle = "#a64ceb";
+          context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+          context.font = "11px Helvetica";
+          context.fillStyle = "#fff";
+          context.fillText(
+            "x: " + rect.x + "px",
+            rect.x + rect.width + 5,
+            rect.y + 11
+          );
+          context.fillText(
+            "y: " + rect.y + "px",
+            rect.x + rect.width + 5,
+            rect.y + 22
+          );
+        });
 
-                if (!event.data) return;
+        event.data.landmarks.forEach(function (landmarks) {
+          for (var l in landmarks) {
+            context.beginPath();
+            context.fillStyle = "#fff";
+            context.arc(landmarks[l][0], landmarks[l][1], 1, 0, 2 * Math.PI);
+            context.fill();
+          }
+        });
+      });
 
-                event.data.faces.forEach(function(rect) {
-                    context.strokeStyle = '#a64ceb';
-                    context.strokeRect(rect.x, rect.y, rect.width, rect.height);
-                    context.font = '11px Helvetica';
-                    context.fillStyle = "#fff";
-                    context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
-                    context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
-                });
-
-                event.data.landmarks.forEach(function(landmarks) {
-                    for (var l in landmarks) {
-                        context.beginPath();
-                        context.fillStyle = "#fff";
-                        context.arc(landmarks[l][0], landmarks[l][1], 1, 0, 2 * Math.PI);
-                        context.fill();
-                    }
-                });
-
-            });
-
-          var gui = new dat.GUI();
-            gui.add(tracker, 'edgesDensity', 0.1, 0.5).step(0.01).listen();
-            gui.add(tracker, 'initialScale', 1.0, 10.0).step(0.1).listen();
-            gui.add(tracker, 'stepSize', 1, 5).step(0.1).listen();
-
-        }
+      var gui = new dat.GUI();
+      gui.add(tracker, "edgesDensity", 0.1, 0.5).step(0.01).listen();
+      gui.add(tracker, "initialScale", 1.0, 10.0).step(0.1).listen();
+      gui.add(tracker, "stepSize", 1, 5).step(0.1).listen();
+    },
   },
 };
 </script>
@@ -149,20 +154,20 @@ video::-webkit-media-controls-volume-slider {
 video::-webkit-media-controls-enclosure {
   // display: none;
 }
-.MytrackvideoElementoutbox{
-    position: relative;
-     width: 600px;
+.MytrackvideoElementoutbox {
+  position: relative;
+  width: 600px;
   height: 400px;
 }
-.trackvideoElement{
-    position: absolute;
-    top: 0;
-    left: 0;
+.trackvideoElement {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
-#canvas{
-   position: absolute;
-    top: 0;
-    left: 0;
-    //background: #333;
+#canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  //background: #333;
 }
 </style>

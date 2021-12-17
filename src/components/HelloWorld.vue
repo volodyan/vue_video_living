@@ -1,10 +1,11 @@
 <template>
   <div class="hello">
+    <component :is='"canvasvideo"'></component>
     <!-- <component :is='"nodeflv"'></component> -->
-   <component :is='"teslflvjs"'></component>
+  <!--  <component :is='"teslflvjs"'></component> -->
     <!-- <component :is='"testvideo"'></component> -->
     <!--  <img src="{{ url_for('video_feed') }}"> -->
-    <component :is='"trackvideo"'></component>
+  <!--   <component :is='"trackvideo"'></component> -->
   </div>
 </template>
 
@@ -14,6 +15,7 @@ import teslflvjs from './video/teslflvjs.vue'
 import nodeflv from './video/nodeflv.vue'
 import flaskdemo from './video/flaskdemo.vue'
 import trackvideo from './trackvideo/index.vue'
+import canvasvideo from './canvasvideo/index'
 export default {
   name: 'HelloWorld',
 components:{
@@ -21,7 +23,8 @@ components:{
   teslflvjs,
   nodeflv,
   flaskdemo,
-  trackvideo
+  trackvideo,
+  canvasvideo
 }
 }
 </script>
