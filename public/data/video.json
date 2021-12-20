@@ -1,4 +1,4 @@
 {
-    "VideoSrc": "http://1011.hlsplay.aodianyun.com/demo/game.flv",
-    "WebsocketUrl": "ws://192.168.1.130:9000/"
+    "VideoSrc": "http://20.20.0.14:8008/WaterRTMSService/Rtmp/live?port=1935&app=myapp&stream=shiyuan",
+    "WebsocketUrl": "ws://20.20.0.16:9000/"
 }
