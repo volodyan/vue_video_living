@@ -26,15 +26,14 @@ export default {
     return {
       websock: null,
       flvPlayer: null,
-      WebsocketUrl:""
+      WebsocketUrl: "",
     };
   },
   created() {},
   mounted() {
-     this.Axiosfun();
-    //this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
+    this.Axiosfun();
+   // this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
     //this.InitPalyFun("http://192.168.1.130:9090/live?port=1935&app=myapp&stream=shiyuan");
-
   },
   destroyed() {
     this.websock.close(); //离开路由之后断开websocket连接
@@ -44,10 +43,10 @@ export default {
     Axiosfun() {
       this.$axios.get("data/video.json").then((res) => {
         console.log("Axiosfun", res, window.location.host);
-        this.WebsocketUrl=res.data.WebsocketUrl
+        this.WebsocketUrl = res.data.WebsocketUrl;
         let host = window.location.host;
         this.InitPalyFun(res.data.VideoSrc);
-       // this.InitPalyFun(`http://${host}res.data.VideoSrc`);
+        // this.InitPalyFun(`http://${host}res.data.VideoSrc`);
       });
     },
     InitPalyFun(VideoSrc) {
@@ -63,7 +62,7 @@ export default {
         this.flvPlayer.load();
         this.flvPlayer.play();
         this.initWebSocket();
-        // if(!!this.flvPlayer.play()){
+
         // this.DrawCavas([
         //   { x1: 0.323, y1: 0.432, x2: 0.364, y2: 0.622 },
         //   { x1: 0.211, y1: 0.278, x2: 0.249, y2: 0.451 },
@@ -79,7 +78,6 @@ export default {
         //   { x1: 0.776, y1: 0.13, x2: 0.815, y2: 0.255 },
         //   { x1: 0.062, y1: 0.293, x2: 0.094, y2: 0.465 },
         // ]);
-        // }
       }
     },
     fullScreen() {
@@ -104,23 +102,25 @@ export default {
       console.log("bodydata", bodydata);
       bodydata.forEach((rect) => {
         context.strokeStyle = "#a64ceb";
+        context.strokeWidth = "2px";
         context.strokeRect(
           canvas.width * rect.x1,
-          canvas.width * rect.y1,
+          canvas.height * rect.y1,
           canvas.width * rect.x2 - canvas.width * rect.x1,
           canvas.height * rect.y2 - canvas.height * rect.y1
         );
-        // context.font = "11px Helvetica";
-        // context.fillStyle = "#fff";
+
+        context.font = "11px Helvetica";
+        context.fillStyle = "red";
+        context.textBaseline = "hanging";
+       // context.fillText(`x1:${rect.x1},x2:${rect.x2},y1:${rect.y1},y2:${rect.y2}`, canvas.width * rect.x1+(canvas.width * rect.x2 - canvas.width * rect.x1)/2, canvas.width * rect.y1+(canvas.height * rect.y2 - canvas.height * rect.y1)/2);
+        context.fillText(`x1:${(canvas.width * rect.x1).toFixed(2)},y1:${(canvas.height * rect.y1).toFixed(2)},x2:${(canvas.width * rect.x2).toFixed(2)},y2:${(canvas.height * rect.y2).toFixed(2)}`, canvas.width * rect.x1+(canvas.width * rect.x2 - canvas.width * rect.x1)/2, canvas.height * rect.y1+(canvas.height * rect.y2 - canvas.height * rect.y1)/2);
+
+
+  
+        // context.fillText(`x1:${rect.x1},x2:${rect.x2},y1:${rect.y1},y2:${rect.y2}`);
         // context.fillText(
-        //   "x: " + rect.x + "px",
-        //   rect.x + rect.width + 5,
-        //   rect.y + 11
-        // );
-        // context.fillText(
-        //   "y: " + rect.y + "px",
-        //   rect.x + rect.width + 5,
-        //   rect.y + 22
+        //  `width:${canvas.width * rect.x2 - canvas.width * rect.x1},height:${canvas.height * rect.y2 - canvas.height * rect.y1}`
         // );
       });
     },
@@ -147,13 +147,13 @@ export default {
     websocketonmessage(e) {
       //数据接收
       if (e.data !== "None") {
-       console.log("JSON.parse(e.data)", JSON.parse(e.data));
+        console.log("JSON.parse(e.data)", JSON.parse(e.data));
         const redata = JSON.parse(e.data);
 
         this.DrawCavas(redata);
       } else {
         var canvas = this.$refs.canvasRef;
-           let contentboxrefSize = this.$refs.contentboxref;
+        let contentboxrefSize = this.$refs.contentboxref;
         canvas.width = contentboxrefSize.getBoundingClientRect().width;
         canvas.height = contentboxrefSize.getBoundingClientRect().height;
         var context = canvas.getContext("2d");
