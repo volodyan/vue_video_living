@@ -1,6 +1,6 @@
 <template>
-  <div class="CanvasvideoOutbox">
-    <div class="ShowVideoDiv" ref="contentboxref">
+  <div class="CanvasvideoOutbox22">
+    <!-- <div class="ShowVideoDiv" ref="contentboxref">
       <video
         id="canvasElement"
         controls
@@ -14,7 +14,7 @@
       <canvas ref="drawimg4" class="drawimg4Style" @dblclick="CanvasfullScreen"
         >你的浏览器不支持 canvas，请升级你的浏览器。</canvas
       >
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -39,16 +39,16 @@ export default {
   mounted() {
     // this.Axiosfun();
 
-    this.$nextTick(() => {
-      this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
-      this.resizefun();
-    });
-    window.onresize = () => {
-      this.$nextTick(() => {
-        this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
-        this.resizefun();
-      });
-    };
+    // this.$nextTick(() => {
+    //   this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
+    //   this.resizefun();
+    // });
+    // window.onresize = () => {
+    //   this.$nextTick(() => {
+    //     this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
+    //     this.resizefun();
+    //   });
+    // };
   },
   destroyed() {
     this.websock.close(); //离开路由之后断开websocket连接

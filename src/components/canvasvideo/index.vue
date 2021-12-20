@@ -43,6 +43,7 @@ export default {
     Axiosfun() {
       this.$axios.get("data/video.json").then((res) => {
         console.log("Axiosfun", res, window.location.host);
+        this.WebsocketUrl=res.data.WebsocketUrl
         let host = window.location.host;
         this.InitPalyFun(res.data.VideoSrc);
        // this.InitPalyFun(`http://${host}res.data.VideoSrc`);
@@ -126,7 +127,7 @@ export default {
 
     initWebSocket() {
       //初始化weosocket
-      const wsuri = "ws://192.168.1.130:9000/";
+      const wsuri = this.WebsocketUrl;
       this.websock = new WebSocket(wsuri);
       this.websock.onmessage = this.websocketonmessage;
       this.websock.onopen = this.websocketonopen;
@@ -150,12 +151,12 @@ export default {
 
         this.DrawCavas(redata);
       } else {
-        // var canvas = this.$refs.canvasRef;
-        //    let contentboxrefSize = this.$refs.contentboxref;
-        // canvas.width = contentboxrefSize.getBoundingClientRect().width;
-        // canvas.height = contentboxrefSize.getBoundingClientRect().height;
-        // var context = canvas.getContext("2d");
-        // context.clearRect(0, 0, canvas.width, canvas.height);
+        var canvas = this.$refs.canvasRef;
+           let contentboxrefSize = this.$refs.contentboxref;
+        canvas.width = contentboxrefSize.getBoundingClientRect().width;
+        canvas.height = contentboxrefSize.getBoundingClientRect().height;
+        var context = canvas.getContext("2d");
+        context.clearRect(0, 0, canvas.width, canvas.height);
       }
     },
     websocketsend(Data) {

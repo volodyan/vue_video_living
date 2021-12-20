@@ -10,20 +10,21 @@
 </template>
 
 <script>
-import testvideo from './video/testvideo.vue'
-import teslflvjs from './video/teslflvjs.vue'
-import nodeflv from './video/nodeflv.vue'
-import flaskdemo from './video/flaskdemo.vue'
-import trackvideo from './trackvideo/index.vue'
+// import testvideo from './video/testvideo.vue'
+// import teslflvjs from './video/teslflvjs.vue'
+// import nodeflv from './video/nodeflv.vue'
+// import flaskdemo from './video/flaskdemo.vue'
+// import trackvideo from './trackvideo/index.vue'
 import canvasvideo from './canvasvideo/index'
 export default {
   name: 'HelloWorld',
 components:{
-  testvideo,
-  teslflvjs,
-  nodeflv,
-  flaskdemo,
-  trackvideo,
+  // testvideo,
+
+  // teslflvjs,
+  // nodeflv,
+  // flaskdemo,
+  // trackvideo,
   canvasvideo
 }
 }
