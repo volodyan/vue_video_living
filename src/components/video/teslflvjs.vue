@@ -1,16 +1,16 @@
 <template>
-  <div>
+  <div class="teslflvjsOutbox">
     <video
       id="videoElement"
       controls
       autoplay
       muted
-      width="300px"
-      height="200px"
+      width="100%"
+      height="100%"
       ref="player"
       @dblclick="fullScreen"
     ></video>
-    <button @click="play">播放</button>
+ <!--    <button @click="play">播放</button> -->
   </div>
 </template>
 <script>
@@ -22,16 +22,16 @@ export default {
     };
   },
   mounted() {
-    // this.Axiosfun();
-   this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
+   // this.Axiosfun();
+     this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
   },
   methods: {
     Axiosfun() {
       this.$axios.get("data/video.json").then((res) => {
         console.log("Axiosfun", res, window.location.host);
         let host = window.location.host;
-         //this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
-      // this.InitPalyFun(`http://${host}res.data.VideoSrc`);
+        //this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
+        this.InitPalyFun(`http://${host}res.data.VideoSrc`);
       });
     },
     InitPalyFun(VideoSrc) {
@@ -63,6 +63,12 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+  .teslflvjsOutbox{
+  /*   width: 480px;
+    height: 270px; */
+  }
+</style>
 <style lang="scss">
 video::-webkit-media-controls-fullscreen-button {
   // display: none;
