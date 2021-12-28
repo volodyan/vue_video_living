@@ -31,8 +31,20 @@ export default {
   },
   created() {},
   mounted() {
+   
+
+    //  window.onload = () => {
+    //   // 子页面接收消息
+    //   window.addEventListener('message',  (e) =>{
+    //      console.log(e.origin,e.data)//子页面接收参数
+    //     console.log("子页面接收消息",e)
+    //     // if (e.data.key === '567890') {
+    //     //   window.document.getElementById('message').innerHTML = e.data.name
+    //     // }
+    //   }, true)
+    // }
     this.Axiosfun();
-   // this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
+    // this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
     //this.InitPalyFun("http://192.168.1.130:9090/live?port=1935&app=myapp&stream=shiyuan");
   },
   destroyed() {
@@ -110,19 +122,25 @@ export default {
           canvas.height * rect.y2 - canvas.height * rect.y1
         );
 
-        context.font = "11px Helvetica";
-        context.fillStyle = "red";
-        context.textBaseline = "hanging";
-       // context.fillText(`x1:${rect.x1},x2:${rect.x2},y1:${rect.y1},y2:${rect.y2}`, canvas.width * rect.x1+(canvas.width * rect.x2 - canvas.width * rect.x1)/2, canvas.width * rect.y1+(canvas.height * rect.y2 - canvas.height * rect.y1)/2);
-        context.fillText(`x1:${(canvas.width * rect.x1).toFixed(2)},y1:${(canvas.height * rect.y1).toFixed(2)},x2:${(canvas.width * rect.x2).toFixed(2)},y2:${(canvas.height * rect.y2).toFixed(2)}`, canvas.width * rect.x1+(canvas.width * rect.x2 - canvas.width * rect.x1)/2, canvas.height * rect.y1+(canvas.height * rect.y2 - canvas.height * rect.y1)/2);
+        // context.font = "11px Helvetica";
+        //context.fillStyle = "red";
+        //context.textBaseline = "hanging";
+        // context.fillText(`x1:${rect.x1},x2:${rect.x2},y1:${rect.y1},y2:${rect.y2}`, canvas.width * rect.x1+(canvas.width * rect.x2 - canvas.width * rect.x1)/2, canvas.width * rect.y1+(canvas.height * rect.y2 - canvas.height * rect.y1)/2);
+        //context.fillText(`x1:${(canvas.width * rect.x1).toFixed(2)},y1:${(canvas.height * rect.y1).toFixed(2)},x2:${(canvas.width * rect.x2).toFixed(2)},y2:${(canvas.height * rect.y2).toFixed(2)}`, canvas.width * rect.x1+(canvas.width * rect.x2 - canvas.width * rect.x1)/2, canvas.height * rect.y1+(canvas.height * rect.y2 - canvas.height * rect.y1)/2);
 
-
-  
         // context.fillText(`x1:${rect.x1},x2:${rect.x2},y1:${rect.y1},y2:${rect.y2}`);
         // context.fillText(
         //  `width:${canvas.width * rect.x2 - canvas.width * rect.x1},height:${canvas.height * rect.y2 - canvas.height * rect.y1}`
         // );
       });
+    },
+    ClearCanvas() {
+      var canvas = this.$refs.canvasRef;
+      let contentboxrefSize = this.$refs.contentboxref;
+      canvas.width = contentboxrefSize.getBoundingClientRect().width;
+      canvas.height = contentboxrefSize.getBoundingClientRect().height;
+      var context = canvas.getContext("2d");
+      context.clearRect(0, 0, canvas.width, canvas.height);
     },
     ////websocket
 
@@ -152,12 +170,7 @@ export default {
 
         this.DrawCavas(redata);
       } else {
-        var canvas = this.$refs.canvasRef;
-        let contentboxrefSize = this.$refs.contentboxref;
-        canvas.width = contentboxrefSize.getBoundingClientRect().width;
-        canvas.height = contentboxrefSize.getBoundingClientRect().height;
-        var context = canvas.getContext("2d");
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        this.ClearCanvas();
       }
     },
     websocketsend(Data) {
@@ -167,6 +180,7 @@ export default {
     websocketclose(e) {
       //关闭
       console.log("断开连接", e);
+      this.ClearCanvas();
     },
   },
 };

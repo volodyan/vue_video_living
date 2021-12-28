@@ -42,8 +42,19 @@ videojs.addLanguage('es', {
 
 // vue component...
 
-
 Vue.config.productionTip = false
+
+window.addEventListener("message", (e) => {
+
+    if (e.source != window.parent) return;
+
+    console.log("我是子组件，我接收到父级数据-------PostMessage", e.data);
+    if (!!e) {
+        // window.removeEventListener("message", () => {
+        // });
+    }
+    // window.parent.postMessage("我是子组件，我接收到父级数据", "*");
+});
 
 new Vue({
     router,

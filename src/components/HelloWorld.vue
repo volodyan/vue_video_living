@@ -8,6 +8,9 @@
       <!--  <img src="{{ url_for('video_feed') }}"> -->
       <!--   <component :is='"trackvideo"'></component> -->
     </div>
+    <!-- <div class="legendcomponentsoutbox">
+      <component :is="'legendcomponents'"></component>
+    </div> -->
   </div>
 </template>
 
@@ -18,6 +21,7 @@ import teslflvjs from "./video/teslflvjs.vue";
 // import flaskdemo from './video/flaskdemo.vue'
 // import trackvideo from './trackvideo/index.vue'
 //import canvasvideo from './canvasvideo/index'
+import legendcomponents from "./legendcomponents.vue";
 export default {
   name: "HelloWorld",
   components: {
@@ -28,6 +32,7 @@ export default {
     // flaskdemo,
     // trackvideo,
     // canvasvideo
+    legendcomponents,
   },
 };
 </script>
@@ -36,12 +41,16 @@ export default {
 <style scoped lang="scss">
 .hello {
   display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
+  flex-flow: column;
+  align-items: center;
   width: 100%;
   .VideoOutbox {
     width: 480px;
     height: 270px;
+  }
+  .legendcomponentsoutbox {
+    width: 230px;
+    margin-top: 60px;
   }
 }
 </style>
