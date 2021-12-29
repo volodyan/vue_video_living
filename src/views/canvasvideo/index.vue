@@ -39,7 +39,7 @@ export default {
     window.onload = () => {
       window.addEventListener("message", this.ListenerFun);
     };
-
+    //this.Axiosfun(0);////独立调用
     // this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
     //this.InitPalyFun("http://192.168.1.130:9090/live?port=1935&app=myapp&stream=shiyuan");
   },
@@ -51,7 +51,7 @@ export default {
       if (e.source != window.parent) return;
       if (e.data.IsShowWaterworksIndex) {
         console.log("我是子组件，我接收到父级数据-------PostMessage", e);
-        this.Axiosfun(e.data.WaterworksIndex);
+       this.Axiosfun(e.data.WaterworksIndex);///PostMassage调用
         window.parent.postMessage(
           { Name: "我是子组件，我接收到父级数据", Status: true },
           "*"
