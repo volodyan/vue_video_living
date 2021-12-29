@@ -39,7 +39,7 @@ export default {
     window.onload = () => {
       window.addEventListener("message", this.ListenerFun);
     };
-    //this.Axiosfun(0);////独立调用
+    this.Axiosfun(0); ////独立调用
     // this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
     //this.InitPalyFun("http://192.168.1.130:9090/live?port=1935&app=myapp&stream=shiyuan");
   },
@@ -51,7 +51,8 @@ export default {
       if (e.source != window.parent) return;
       if (e.data.IsShowWaterworksIndex) {
         console.log("我是子组件，我接收到父级数据-------PostMessage", e);
-       this.Axiosfun(e.data.WaterworksIndex);///PostMassage调用
+
+        //this.Axiosfun(e.data.WaterworksIndex); ///PostMassage调用
         window.parent.postMessage(
           { Name: "我是子组件，我接收到父级数据", Status: true },
           "*"
@@ -64,10 +65,14 @@ export default {
         console.log("Axiosfun33333", res, window.location.host);
         this.WebsocketUrl = res.data.WebsocketUrl;
         let host = window.location.host;
+        let WaterworksNameArray =
+          window.location.hostname === "10.1.1.30"
+            ? res.data.WaterworksNameArray1
+            : res.data.WaterworksNameArray2;
         //this.InitPalyFun(res.data.VideoSrc);
         // this.InitPalyFun(`http://${host}res.data.VideoSrc`);
-        this.InitPalyFun(res.data.WaterworksNameArray[index].Src);
-        // this.InitPalyFun(`http://${host}res.data.WaterworksNameArray[index].Src`);
+        this.InitPalyFun(WaterworksNameArray[index].Src);
+        // this.InitPalyFun(`http://${host}${res.data.WaterworksNameArray[index].Src}`);
       });
     },
     InitPalyFun(VideoSrc) {
@@ -178,11 +183,12 @@ export default {
     websocketonmessage(e) {
       //数据接收
       if (e.data !== "None") {
-        console.log("JSON.parse(e.data)", JSON.parse(e.data));
+        console.log("数据接收", JSON.parse(e.data));
         const redata = JSON.parse(e.data);
 
         this.DrawCavas(redata);
       } else {
+        console.log("数据接收---None", e.data);
         this.ClearCanvas();
       }
     },
@@ -206,11 +212,12 @@ export default {
   align-items: center;
   width: 100%;
   height: 100%;
+
   .ShowVideoDiv {
-    // width: 480px;
-    // height: 270px;
-    width: 100%;
-    height: 100%;
+    // width: 100%;
+    // height: 100%;
+    width: 480px;
+    height: 270px;
     object-fit: cover;
     //background: rgba(150, 102, 69, 0.2);
     position: relative;

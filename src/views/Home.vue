@@ -21,6 +21,7 @@ export default {
   flex-flow: row nowrap;
   justify-content: center;
   width: 100%;
+  
   .VideoOutbox {
     width: 100%;
     height: 100%;
