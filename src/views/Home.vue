@@ -1,18 +1,30 @@
 <template>
   <div class="home">
-    
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="VideoOutbox">
+      <component :is="'canvasvideo'"></component>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import canvasvideo from "./canvasvideo/index";
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
-    HelloWorld
+    canvasvideo,
+  },
+};
+</script>
+<style scoped lang="scss">
+.home {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  width: 100%;
+  .VideoOutbox {
+    width: 100%;
+    height: 100%;
   }
 }
-</script>
+</style>
+

@@ -19,9 +19,7 @@
 </template>
 
 <script>
-import Bus from "@/utils/bus.js";
 import flvjs from "flv.js";
-import { mapGetters } from "vuex";
 export default {
   name: "canvasvideo",
   data() {
@@ -32,32 +30,16 @@ export default {
     };
   },
   created() {},
-  computed: {
-    ...mapGetters({
-      GetWindowParentPostMessage: "GetWindowParentPostMessage",
-    }),
+
+  beforeDestroy() {
+    window.removeEventListener("message", this.ListenerFun);
   },
-  // beforeDestroy() {
-  //  window.removeEventListener("message", this.ListenerFun);
-  // },
-  // watch: {
-  //   GetWindowParentPostMessage: {
-  //     handler(newName, oldName) {
-  //      console.log("newName, oldName", newName, oldName,GetWindowParentPostMessage);
-  //     },
-  //     deep: true,
-  //     immediate: true,
-  //   },
-  // },
+
   mounted() {
-    // window.onload = () => {
-    //   window.addEventListener("message", this.ListenerFun);
-    // };
-    Bus.$on("WindowParentPostMessageTo", (e) => {
-      alert(123456)
-      console.log("WindowParentPostMessageTo", e);
-    });
-    this.Axiosfun();
+    window.onload = () => {
+      window.addEventListener("message", this.ListenerFun);
+    };
+
     // this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
     //this.InitPalyFun("http://192.168.1.130:9090/live?port=1935&app=myapp&stream=shiyuan");
   },
@@ -65,64 +47,63 @@ export default {
     this.websock.close(); //离开路由之后断开websocket连接
   },
   methods: {
-    // ListenerFun(e) {
-    //   if (e.source != window.parent) return;
-    //   if (e.data.IsShowWaterworksIndex) {
-    //     console.log("我是子组件，我接收到父级数据-------PostMessage", e);
-    //     window.parent.postMessage(
-    //       { Name: "我是子组件，我接收到父级数据", Status: true },
-    //       "*"
-    //     );
-
-    //     // Bus.$emit("WindowParentPostMessageTo", e.data.WaterworksIndex);
-    //     // store.dispatch("WindowParentPostMessageFun", e.data.WaterworksIndex);
-    //   }
-    // },
-    // flv
-    Axiosfun() {
-      this.$axios.get("data/video.json").then((res) => {
-        console.log(
-          "Axiosfun33333",
-          res,
-          window.location.host,
-          this.GetWindowParentPostMessage
+    ListenerFun(e) {
+      if (e.source != window.parent) return;
+      if (e.data.IsShowWaterworksIndex) {
+        console.log("我是子组件，我接收到父级数据-------PostMessage", e);
+        this.Axiosfun(e.data.WaterworksIndex);
+        window.parent.postMessage(
+          { Name: "我是子组件，我接收到父级数据", Status: true },
+          "*"
         );
+      }
+    },
+    // flv
+    Axiosfun(index) {
+      this.$axios.get("data/video.json").then((res) => {
+        console.log("Axiosfun33333", res, window.location.host);
         this.WebsocketUrl = res.data.WebsocketUrl;
         let host = window.location.host;
-        this.InitPalyFun(res.data.VideoSrc);
+        //this.InitPalyFun(res.data.VideoSrc);
         // this.InitPalyFun(`http://${host}res.data.VideoSrc`);
+        this.InitPalyFun(res.data.WaterworksNameArray[index].Src);
+        // this.InitPalyFun(`http://${host}res.data.WaterworksNameArray[index].Src`);
       });
     },
     InitPalyFun(VideoSrc) {
-      if (flvjs.isSupported()) {
-        var canvasElement = document.getElementById("canvasElement");
-        this.flvPlayer = flvjs.createPlayer({
-          type: "flv",
-          isLive: true,
-          hasAudio: false,
-          url: VideoSrc, // "http://1011.hlsplay.aodianyun.com/demo/game.flv", //"http://20.20.0.16:8080/live?port=1935&app=myapp&stream=shenhua"//
-        });
-        this.flvPlayer.attachMediaElement(canvasElement);
-        this.flvPlayer.load();
-        this.flvPlayer.play();
-        this.initWebSocket();
+      try {
+        if (!!VideoSrc) {
+          if (flvjs.isSupported()) {
+            var canvasElement = document.getElementById("canvasElement");
+            this.flvPlayer = flvjs.createPlayer({
+              type: "flv",
+              isLive: true,
+              hasAudio: false,
+              url: VideoSrc, // "http://1011.hlsplay.aodianyun.com/demo/game.flv", //"http://20.20.0.16:8080/live?port=1935&app=myapp&stream=shenhua"//
+            });
+            this.flvPlayer.attachMediaElement(canvasElement);
+            this.flvPlayer.load();
+            this.flvPlayer.play();
+            this.initWebSocket();
 
-        // this.DrawCavas([
-        //   { x1: 0.323, y1: 0.432, x2: 0.364, y2: 0.622 },
-        //   { x1: 0.211, y1: 0.278, x2: 0.249, y2: 0.451 },
-        //   { x1: 0.762, y1: 0.393, x2: 0.819, y2: 0.639 },
-        //   { x1: 0.128, y1: 0.559, x2: 0.184, y2: 0.811 },
-        //   { x1: 0.724, y1: 0.805, x2: 0.799, y2: 0.996 },
-        //   { x1: 0.848, y1: 0.615, x2: 0.907, y2: 0.866 },
-        //   { x1: 0.18, y1: 0.563, x2: 0.236, y2: 0.828 },
-        //   { x1: 0.612, y1: 0.069, x2: 0.645, y2: 0.199 },
-        //   { x1: 0.376, y1: 0.119, x2: 0.404, y2: 0.23 },
-        //   { x1: 0.332, y1: 0.158, x2: 0.367, y2: 0.269 },
-        //   { x1: 0.553, y1: 0.005, x2: 0.576, y2: 0.112 },
-        //   { x1: 0.776, y1: 0.13, x2: 0.815, y2: 0.255 },
-        //   { x1: 0.062, y1: 0.293, x2: 0.094, y2: 0.465 },
-        // ]);
-      }
+            // this.DrawCavas([
+            //   { x1: 0.323, y1: 0.432, x2: 0.364, y2: 0.622 },
+            //   { x1: 0.211, y1: 0.278, x2: 0.249, y2: 0.451 },
+            //   { x1: 0.762, y1: 0.393, x2: 0.819, y2: 0.639 },
+            //   { x1: 0.128, y1: 0.559, x2: 0.184, y2: 0.811 },
+            //   { x1: 0.724, y1: 0.805, x2: 0.799, y2: 0.996 },
+            //   { x1: 0.848, y1: 0.615, x2: 0.907, y2: 0.866 },
+            //   { x1: 0.18, y1: 0.563, x2: 0.236, y2: 0.828 },
+            //   { x1: 0.612, y1: 0.069, x2: 0.645, y2: 0.199 },
+            //   { x1: 0.376, y1: 0.119, x2: 0.404, y2: 0.23 },
+            //   { x1: 0.332, y1: 0.158, x2: 0.367, y2: 0.269 },
+            //   { x1: 0.553, y1: 0.005, x2: 0.576, y2: 0.112 },
+            //   { x1: 0.776, y1: 0.13, x2: 0.815, y2: 0.255 },
+            //   { x1: 0.062, y1: 0.293, x2: 0.094, y2: 0.465 },
+            // ]);
+          }
+        }
+      } catch (error) {}
     },
     fullScreen() {
       if (this.$refs.player.requestFullScreen) {
@@ -224,10 +205,12 @@ export default {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 560px;
+  height: 100%;
   .ShowVideoDiv {
-    width: 480px;
-    height: 270px;
+    // width: 480px;
+    // height: 270px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     //background: rgba(150, 102, 69, 0.2);
     position: relative;

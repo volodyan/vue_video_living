@@ -1,4 +1,13 @@
 {
-    "VideoSrc": "http://20.20.0.14:8008/WaterRTMSService/Rtmp/live?port=1935&app=myapp&stream=shiyuan",
-    "WebsocketUrl": "ws://20.20.0.16:9000/"
+    "VideoSrc": "http://1011.hlsplay.aodianyun.com/demo/game.flv",
+    "WebsocketUrl": "ws://20.20.0.16:9000/",
+    "WaterworksNameArray": [
+        { "index": 1, "WaterworksName": "柿园水厂", "Src": "http://1011.hlsplay.aodianyun.com/demo/game.flv" },
+        { "index": 2, "WaterworksName": "刘湾水厂", "Src": "" },
+        { "index": 3, "WaterworksName": "白庙水厂", "Src": "" },
+        { "index": 4, "WaterworksName": "罗垌水厂", "Src": "http://1011.hlsplay.aodianyun.com/demo/game.flv" },
+        { "index": 5, "WaterworksName": "侯寨水厂", "Src": "" },
+        { "index": 6, "WaterworksName": "港区水厂", "Src": "http://20.20.0.14:8008/WaterRTMSService/Rtmp/live?port=1935&app=myapp&stream=gangqu" },
+        { "index": 7, "WaterworksName": "桥南水厂", "Src": "http://20.20.0.14:8008/WaterRTMSService/Rtmp/live?port=1935&app=myapp&stream=qiaonan" }
+    ]
 }
