@@ -34,6 +34,7 @@ export default {
     // canvasvideo
     legendcomponents,
   },
+ 
 };
 </script>
 

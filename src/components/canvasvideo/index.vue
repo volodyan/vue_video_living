@@ -19,7 +19,9 @@
 </template>
 
 <script>
+import Bus from "@/utils/bus.js";
 import flvjs from "flv.js";
+import { mapGetters } from "vuex";
 export default {
   name: "canvasvideo",
   data() {
@@ -30,19 +32,31 @@ export default {
     };
   },
   created() {},
+  computed: {
+    ...mapGetters({
+      GetWindowParentPostMessage: "GetWindowParentPostMessage",
+    }),
+  },
+  // beforeDestroy() {
+  //  window.removeEventListener("message", this.ListenerFun);
+  // },
+  // watch: {
+  //   GetWindowParentPostMessage: {
+  //     handler(newName, oldName) {
+  //      console.log("newName, oldName", newName, oldName,GetWindowParentPostMessage);
+  //     },
+  //     deep: true,
+  //     immediate: true,
+  //   },
+  // },
   mounted() {
-   
-
-    //  window.onload = () => {
-    //   // 子页面接收消息
-    //   window.addEventListener('message',  (e) =>{
-    //      console.log(e.origin,e.data)//子页面接收参数
-    //     console.log("子页面接收消息",e)
-    //     // if (e.data.key === '567890') {
-    //     //   window.document.getElementById('message').innerHTML = e.data.name
-    //     // }
-    //   }, true)
-    // }
+    // window.onload = () => {
+    //   window.addEventListener("message", this.ListenerFun);
+    // };
+    Bus.$on("WindowParentPostMessageTo", (e) => {
+      alert(123456)
+      console.log("WindowParentPostMessageTo", e);
+    });
     this.Axiosfun();
     // this.InitPalyFun("http://1011.hlsplay.aodianyun.com/demo/game.flv");
     //this.InitPalyFun("http://192.168.1.130:9090/live?port=1935&app=myapp&stream=shiyuan");
@@ -51,10 +65,28 @@ export default {
     this.websock.close(); //离开路由之后断开websocket连接
   },
   methods: {
+    // ListenerFun(e) {
+    //   if (e.source != window.parent) return;
+    //   if (e.data.IsShowWaterworksIndex) {
+    //     console.log("我是子组件，我接收到父级数据-------PostMessage", e);
+    //     window.parent.postMessage(
+    //       { Name: "我是子组件，我接收到父级数据", Status: true },
+    //       "*"
+    //     );
+
+    //     // Bus.$emit("WindowParentPostMessageTo", e.data.WaterworksIndex);
+    //     // store.dispatch("WindowParentPostMessageFun", e.data.WaterworksIndex);
+    //   }
+    // },
     // flv
     Axiosfun() {
       this.$axios.get("data/video.json").then((res) => {
-        console.log("Axiosfun", res, window.location.host);
+        console.log(
+          "Axiosfun33333",
+          res,
+          window.location.host,
+          this.GetWindowParentPostMessage
+        );
         this.WebsocketUrl = res.data.WebsocketUrl;
         let host = window.location.host;
         this.InitPalyFun(res.data.VideoSrc);

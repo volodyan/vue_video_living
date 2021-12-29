@@ -22,7 +22,7 @@ Vue.use(VueVideoPlayer,
   events: global videojs events
 } */
 )
-
+import Bus from "./utils/bus";
 import videojs from 'video.js'
 
 // videojs plugin
@@ -39,22 +39,23 @@ videojs.addLanguage('es', {
 })
 
 // more videojs api...
+Bus.$emit("WindowParentPostMessageTo", 123)
+    // vue component...
+window.addEventListener("message", (e) => {
+    if (e.source != window.parent) return;
+    if (e.data.IsShowWaterworksIndex) {
+        console.log("我是子组件，我接收到父级数据-------PostMessage", e);
+        window.parent.postMessage({
+            Status: true,
+            Name: "我是子组件，我接收到父级数据"
+        }, "*")
+        Bus.$emit("WindowParentPostMessageTo", e.data.WaterworksIndex)
+        store.dispatch("WindowParentPostMessageFun", e.data.WaterworksIndex)
+    }
 
-// vue component...
-
+});
 Vue.config.productionTip = false
 
-window.addEventListener("message", (e) => {
-
-    if (e.source != window.parent) return;
-
-    console.log("我是子组件，我接收到父级数据-------PostMessage", e.data);
-    if (!!e) {
-        // window.removeEventListener("message", () => {
-        // });
-    }
-    // window.parent.postMessage("我是子组件，我接收到父级数据", "*");
-});
 
 new Vue({
     router,
